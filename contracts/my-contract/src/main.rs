@@ -97,11 +97,11 @@ pub fn program_entry() -> i8 {
 
     let first_contract_output_capacity: u64 = first_contract_output.capacity().unpack();
 
+    // verify if the first group output capacity is greater than 100ckb
     if first_contract_output_capacity <= 100 * 10u64.pow(8) {
         return MyContractError::InvalidFirstContractOutput.into();
     }
 
-    // verify if the first group output capacity is greater than 100ckb
-
+    // ALL PASSED, return success
     0
 }
