@@ -1,6 +1,6 @@
 # tutorial-contract
 
-## 0. How to generate/init a contract project
+## How to generate/init a contract project
 
 ### Prerequisite
 
@@ -33,6 +33,6 @@ make generate
 ✨   Done! New project created ./tutorial-contract/contracts/my-contract
 ```
 
-### Implement it!
+## Implement it!
 
 open `./contracts/my-contract`, fill your logic in `src/main.rs`
