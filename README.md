@@ -40,3 +40,15 @@ open `./contracts/my-contract`, fill your logic in `src/main.rs`
 ## Write your test in `tests/src/tests.rs` !
 
 test cases goes into `tests/tests.rs`, you can also use your own project structure.
+
+## Build it, test it!
+
+1. run `make build` to build your contract
+2. run `make test` to test your contract
+
+## Distribute your contract!
+
+1. ensure you have installed ckb-cli: https://github.com/nervosnetwork/ckb-cli
+2. generate a deployment info: `ckb-cli --url https://testnet.ckb.dev/rpc deploy init-config --deployment-config deploy.yaml --output-format yaml`
+3. generate your deployment tx, and sign it: `mkdir -p ./migration && ckb-cli --url https://testnet.ckb.dev/rpc deploy gen-txs --info-file deploy.toml --migration-dir migration --from-address ckt1qzda0cr08m85hc8jlnfp3zer7xulejywt49kt2rr0vthywaa50xwsqvajw9mtmkwxhndjfjwmtah2tp5xpxytpcnct6aa --fee-rate 1000 --deployment-config deploy.yaml --sign-now`
+4. send your tx: `deploy apply-txs --info-file deploy.toml --migration-dir ./migration`
