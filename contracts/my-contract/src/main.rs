@@ -22,6 +22,7 @@ pub enum MyContractError {
     InvalidFirstContractOutput = -5,
 }
 
+// define a conversion from MyContractError to i8
 impl From<MyContractError> for i8 {
     fn from(err: MyContractError) -> i8 {
         err as i8
@@ -32,6 +33,7 @@ impl From<MyContractError> for i8 {
 use ckb_std::ckb_constants::Source;
 use ckb_std::high_level::{
     load_cell,
+    load_cell_capacity,
     load_cell_type_hash,
     load_script_hash,
     QueryIter, // a iterator factory
@@ -55,13 +57,18 @@ pub fn program_entry() -> i8 {
     }
 
     // second rule, we check the first group input and first group output
-    let first_group_input = load_cell(0, Source::GroupInput)
-        .expect("load group_input cell failed, maybe no cell refereced this contract?");
-    let first_group_input_capacity: u64 = first_group_input.capacity().unpack();
 
-    // verify if the first group input capacity is less than 100ckb
-    if first_group_input_capacity >= 100 * 10u64.pow(8) {
-        return MyContractError::InvalidFirstGroupInput.into();
+    // loading from group_input
+    let first_group_input = load_cell(0, Source::GroupInput);
+
+    // if load cell returns an error, it means no input use our contract, so we skip for the referenced input check
+    if let Ok(first_group_input) = first_group_input {
+        let first_group_input_capacity: u64 = first_group_input.capacity().unpack();
+
+        // verify if the first group input capacity is less than 100ckb
+        if first_group_input_capacity >= 100 * 10u64.pow(8) {
+            return MyContractError::InvalidFirstGroupInput.into();
+        }
     }
 
     // now let's find the first output cell that USE/CALL our contract

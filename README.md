@@ -36,3 +36,7 @@ make generate
 ## Implement it!
 
 open `./contracts/my-contract`, fill your logic in `src/main.rs`
+
+## Write your test in `tests/src/tests.rs` !
+
+test cases goes into `tests/tests.rs`, you can also use your own project structure.
